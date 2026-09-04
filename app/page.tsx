@@ -1,9 +1,11 @@
 import Image from "next/image";
+import Form from 'next/form'
 
-import { createClient } from "@/lib/supabase/server";
 import { Suspense } from 'react';
 import * as React from 'react';
-import Update from '../components/update'
+
+import { createClient } from "@/lib/supabase/server";
+import { WorkoutView }  from "@/app/components/workoutView";
 
 async function Test1ngData() {
   const supabase = await createClient();
@@ -15,7 +17,7 @@ async function Test1ngData() {
   return <>
     <div className = "flex flex-row">
       {test1ng.map((test, index) => (
-        <p className="font-bold text-red-500 p-4">{test.testString}</p>
+        <p key={index} className="font-bold text-zinc-200 p-4">{test.testString}</p>
       ))}
     </div>
   </>;
@@ -45,6 +47,9 @@ export default function Home() {
           <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-200">
             Set List
           </h1>
+
+          <WorkoutView />
+          {/*pass date in here as children*/}
           
           <Suspense fallback={<div>Loading Test1ng...</div>}>
             <Test1ngData />
@@ -59,7 +64,13 @@ export default function Home() {
           </div>
 
 
+          <Form>
+            <input name="Weight" />
+          </Form>
+
+
           
+          {/*
           <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
             Looking for a starting point or more instructions? Head over to{" "}
             <a
@@ -102,6 +113,8 @@ export default function Home() {
           >
             Documentation
           </a>
+          */}
+          
         </div>
       </main>
     </div>
