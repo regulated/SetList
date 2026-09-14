@@ -7,6 +7,18 @@ import * as React from 'react';
 import { createClient } from "@/lib/supabase/server";
 import { WorkoutView }  from "@/app/components/workoutView";
 
+//shadcn
+import { Textarea } from "@/components/ui/textarea"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
 async function Test1ngData() {
   const supabase = await createClient();
   const { data: test1ng } = await supabase
@@ -15,9 +27,27 @@ async function Test1ngData() {
     // .like('testString','%2%')
   // return <p>{JSON.stringify(test1ng, null, 2)}</p>;
   return <>
-    <div className = "flex flex-row">
+    <div className = "flex flex-col">
       {test1ng.map((test, index) => (
         <p key={index} className="font-bold text-zinc-200 p-4">{test.testString}</p>
+      ))}
+    </div>
+  </>;
+}
+
+async function Exercises() {
+  const supabase = await createClient();
+  const { data: exercises, error } = await supabase
+    .from("exercise")
+    .select();
+
+  console.log("exercises: ", exercises);
+  console.log("error: ", error);
+  
+  return <>
+    <div className = "flex flex-col">
+      {exercises.map((ex, index) => (
+        <p key={index} className="font-bold text-zinc-200 p-4">{ex.name}: {ex.max}</p>
       ))}
     </div>
   </>;
@@ -49,10 +79,13 @@ export default function Home() {
           </h1>
 
           <WorkoutView />
-          {/*pass date in here as children*/}
+          {/*pass data in here as children*/}
           
           <Suspense fallback={<div>Loading Test1ng...</div>}>
             <Test1ngData />
+          </Suspense>
+          <Suspense fallback={<div>Loading Exercises...</div>}>
+            <Exercises />
           </Suspense>
 
           <h2 className="text-2xl">Bench</h2>
@@ -62,6 +95,51 @@ export default function Home() {
             <div>Weight</div>
             <input type="number" id="Wt" name="Weight" size="2" min="0" max="100" className="bg-white text-black"></input>
           </div>
+
+
+          <Card className="max-w-sm">
+            <CardHeader>
+              <CardTitle>Bench</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form>
+                <div className="flex flex-row gap-6">
+                  <div className="grid gap-2">
+                    <Label>Reps</Label>
+                    <Input
+                      id="reps"
+                      type="number"
+                      placeholder="8"
+                      required
+                    />
+                    <Input
+                      id="reps"
+                      type="number"
+                      placeholder="8"
+                      required
+                    />
+                    <Input
+                      id="reps"
+                      type="number"
+                      placeholder="8"
+                      required
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <div className="flex items-center">
+                      <Label>Weight</Label>
+                    </div>
+                    <Input id="w1" type="number" required />
+                    <Input id="w2" type="number" required />
+                    <Input id="w3" type="number" required />
+                  </div>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+
+
+          
 
 
           <Form>
