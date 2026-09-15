@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Form from 'next/form'
-import { revalidatePath } from 'next/cache'
+import Form from 'next/form';
+import { revalidatePath } from 'next/cache';
 
 import { Suspense } from 'react';
 import * as React from 'react';
@@ -23,21 +23,51 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 // Lucide
-import { SendHorizontal } from "lucide-react"
+import { SendHorizontal, Send } from "lucide-react"
 
-async function Exercises() {
+async function Exercises(child) {
   const supabase = await createClient();
   const { data: exercises, error } = await supabase
     .from("exercise")
-    .select();
+    .select()
+    .eq('workout_id', child.day);
 
-  console.log("exercises: ", exercises);
-  console.log("error: ", error);
-  
   return <>
     <div className = "flex flex-col">
-      {exercises.map((ex, index) => (
-        <p key={index} className="font-bold text-zinc-200 p-4">{ex.name}: {ex.max}</p>
+      {exercises?.map((ex, index) => (
+        <Card className="max-w-sm m-1" key={index}>
+          <CardHeader>
+            <CardTitle>{ex.name}</CardTitle>
+          </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-3 items-start">
+                <h2>Reps</h2>
+                <h2>Weight</h2>
+                <div></div>
+              </div>
+              <form>
+                {[...Array(ex.sets)].map((_, index) => (
+                <div key={index} className="grid grid-cols-3 gap-4 p-1 items-center">
+                  <Input
+                    id={"r" + index.toString()}
+                    name="reps"
+                    type="number"
+                    placeholder="8"
+                    required
+                  />
+                  <Input 
+                    id={"w" + index.toString()}
+                    name="weight" 
+                    type="number" 
+                    placeholder="225"
+                    required 
+                  />
+                  <button><SendHorizontal /></button> 
+                </div>
+                ))}
+              </form>
+            </CardContent>
+          </Card>
       ))}
     </div>
   </>;
@@ -65,60 +95,19 @@ export default function Home() {
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-zinc-800 sm:items-start">
 
-        {/*
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        */}
-        
-
+        <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-200">
+          Set List
+        </h1>
         
         <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-200">
-            Set List
-          </h1>
 
           <WorkoutView />
           {/*pass data in here as children*/}
           
           <Suspense fallback={<div>Loading Exercises...</div>}>
-            <Exercises />
+            <Exercises day={1}></Exercises>
           </Suspense>
 
-          <Card className="max-w-sm">
-            <CardHeader>
-              <CardTitle>Bench</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form>
-                <div className="flex flex-row gap-6">
-                  <div className="grid gap-2">
-                    <Label>Reps</Label>
-                    <Input
-                      id="r1"
-                      name="reps"
-                      type="number"
-                      placeholder="8"
-                      required
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <div className="flex items-center">
-                      <Label>Weight</Label>
-                    </div>
-                    <Input id="w1" name="weight" type="number" required />
-                  </div>
-                  <button type="submit"><SendHorizontal /></button>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
-          
         </div>
       </main>
     </div>
