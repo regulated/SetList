@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <nav className="flex flex-row gap-8 items-center bg-zinc-800">
+    <nav className="flex flex-row gap-8 items-center">
       <Link href="/">
         <div>Navbar</div>
       </Link>
