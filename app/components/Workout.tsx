@@ -42,16 +42,16 @@ export default async function Workout(child: any) {
             <CardTitle>{ex.name}</CardTitle>
           </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-7">
-                <h2 className="col-span-3">Weight</h2>
-                <h2 className="col-span-3">Reps</h2>
+              <div className="grid grid-cols-11">
+                <h2 className="col-span-5">Weight</h2>
+                <h2 className="col-span-5">Reps</h2>
                 <div></div>
               </div>
               <form>
                 {[...Array(ex.sets)].map((_, index) => (
-                <div key={index} className="grid grid-cols-7 gap-4 p-1 items-center">
+                <div key={index} className="grid grid-cols-11 gap-4 p-1 items-center">
                   <Input 
-                    className="col-span-3"
+                    className="col-span-5"
                     id={"w" + index.toString()}
                     name="weight" 
                     type="number" 
@@ -59,7 +59,7 @@ export default async function Workout(child: any) {
                     required 
                   />
                   <Input
-                    className="col-span-3"
+                    className="col-span-5"
                     id={"r" + index.toString()}
                     name="reps"
                     type="number"
