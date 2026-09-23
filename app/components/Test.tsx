@@ -34,8 +34,7 @@ export default async function Test() {
   const supabase = await createClient();
   const { data: exercises, error } = await supabase
     .from("exercise")
-    .select()
-    .eq('name', "Squat");
+    .select();
 
   return <>
     <div className = "flex flex-col gap-4">

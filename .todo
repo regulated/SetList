@@ -2,3 +2,9 @@ TODO
 
 Add a submission button to the form
 Find a way to insert data into postgres
+
+Border Highlights
+  Highlight the current Ex(card) Set(input) and checkbox in Orange
+  Once Checked:
+    move highlight to next set of same ex or first set of next ex
+    

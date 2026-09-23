@@ -37,7 +37,7 @@ export default async function Workout(child: any) {
   return <>
     <div className = "flex flex-col gap-4">
       {exercises?.map((ex, index) => (
-        <Card className="max-w-sm border-primary" key={index}>
+        <Card className="max-w-sm border border-primary hover:border-chart-2" key={index}>
           <CardHeader>
             <CardTitle>{ex.name}</CardTitle>
           </CardHeader>
@@ -51,7 +51,7 @@ export default async function Workout(child: any) {
                 {[...Array(ex.sets)].map((_, index) => (
                 <div key={index} className="grid grid-cols-11 gap-4 p-1 items-center">
                   <Input 
-                    className="col-span-5"
+                    className="col-span-5 focus-visible:border-primary"
                     id={"w" + index.toString()}
                     name="weight" 
                     type="number" 
@@ -59,14 +59,14 @@ export default async function Workout(child: any) {
                     required 
                   />
                   <Input
-                    className="col-span-5"
+                    className="col-span-5 focus-visible:border-primary"
                     id={"r" + index.toString()}
                     name="reps"
                     type="number"
                     placeholder="8"
                     required
                   />
-                  <button className="text-primary"><CheckCheck /></button> 
+                  <Checkbox  />
                 </div>
                 ))}
               </form>
@@ -76,7 +76,7 @@ export default async function Workout(child: any) {
         <div className="flex flex-col items-center">
           <button className="flex flex-row gap-2 ">
             Log Workout
-            <Send className="text-chart-1" />
+            <Send className="text-chart-2" />
         </button> 
         </div>
     </div>
